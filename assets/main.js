@@ -57,10 +57,14 @@ function editCard(cardId) {
 
 }
 
-function deleteCard(viewingCard) {
-  console.log('uhhh, deleting card?')
+function deleteCard(cardId) {
+  console.log(`uhhh, deleting card with id ${cardId}`)
+
+  let cardToDelete = flashCards.findIndex( (card) => {
+    return card.id == cardId;
+  })
   flashCards = flashCards.filter( (card) => {
-    return card.id !== viewingCard + 1;
+    return card.id != cardToDelete
   })
 }
 
@@ -71,6 +75,7 @@ function fillNextCard(cardIndex) {
 }
 
 function flipCard() {
+  cardMode = !cardMode;
   if (cardMode) {
     viewingCard += 1;
     viewingCard = viewingCard % NUMBER_OF_CARDS;
@@ -92,7 +97,6 @@ $(document).ready( () => {
 
 
   $(document).on('click', '#show-next', () => {
-    cardMode = !cardMode;
     flipCard();
   })
 
@@ -103,7 +107,8 @@ $(document).ready( () => {
   })
 
   $(document).on('click', '#delete-card', () => {
-    deleteCard(viewingCard);
+    let cardToDelete = $('#theCard').data('id');
+    deleteCard(cardToDelete);
     flipCard();
   })
 })
