@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ES6 Flashcards</title>
+    <link rel='stylesheet' href='./assets/semantic/semantic.min.css'>
+    <link rel='stylesheet' href='./assets/styles.css'>
+  </head>
+  <body>
+    <div class='ui container fluid'>
+      <div class='ui centered container' id='headline'>
+        <h1 class='ui centered header'>ES6 FLASHCARDS</h1>
+      </div>
+    </div>
+    <div class=''>
+    <div class='ui container fluid'>
+      <div class='ui grid'>
+        <div class='wide centered column' id='card-column'>
+          <div class='ui centered card' id='theCard' data-id='0'>
+            <div class="content">
+              <div class="header" id="theCard-header">Card # n</div>
+              <div class="description">
+                <p id="theCard-question"></p>
+              </div>
+            </div>
+            <div class="content" id="answer-area">
+              <div class="description back">
+                <p id="theCard-answer"></p>
+              </div>
+            </div>
+            <div class='ui buttons front'>
+              <button class='ui button' id='show-next'>Show Answer</button>
+            </div>
+            <div class='ui buttons back'>
+              <button class='ui button' id='edit-save'>Edit</button>
+              <button class='ui button' id='delete-card'>Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <script src='./assets/jquery-3.3.1.min.js'></script>
+    <script src='./assets/semantic/semantic.min.js'></script>
+    <script src='./assets/main.js'></script>
+  </body>
+</html>
