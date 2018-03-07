@@ -1,35 +1,33 @@
 var flashCards = [
-  { id: '1',
-    question: 'Card 1 Question',
-    answer: 'Card 1 Answer'
+  { question: "What is this: () => {} ",
+    answer: 'An arrow function'
   },
-  { id: '2',
-    question: 'Card 2 Question',
-    answer: 'Card 2 Answer'
+  { question: 'Difference between let and var?',
+    answer: "let isn't hoisted, which allows for better scoping."
   },
-  { id: '3',
-    question: 'Card 3 Question',
-    answer: 'Card 3 Answer'
+  { question: 'What is the shorthand for obj = { x: x, y: y }',
+    answer: 'obj = { x, y }'
   },
-  { id: '4',
-    question: 'Card 4 Question',
-    answer: 'Card 4 Answer'
+  { question: `for (let n of fibonacci) {\n
+    if (n > 1000)\n
+        break\n
+    console.log(n)
+}
+The above is an example of...`,
+    answer: 'A for n loop'
   },
-  { id: '5',
-    question: 'Card 5 Question',
-    answer: 'Card 5 Answer'
+  { question: 'Use backticks and ${} to perform...',
+    answer: 'string interpolation'
   },
-  { id: '6',
-    question: 'Card 6 Question',
-    answer: 'Card 6 Answer'
+  { question: `console.log(sum(...numbers));\n
+                the above is an example of:`,
+    answer: 'Spread operator'
   },
-  { id: '7',
-    question: 'Card 7 Question',
-    answer: 'Card 7 Answer'
+  { question: 'Difference betwen a Set and an Array?',
+    answer: 'A Set has unique values.'
   },
-  { id: '8',
-    question: 'Card 8 Question',
-    answer: 'Card 8 Answer'
+  { question: 'What do promises do?',
+    answer: 'Allow us to write asynchronous code that looks synchronous'
   }
 ]
 
@@ -52,24 +50,29 @@ function saveCard(cardIndex, cardQuestion, cardAnswer) {
 
 }
 
-function editCard(cardId) {
-  $('#edit-save').html('Save');
+function editCard(cardIndex) {
+  $('#save').html('Save');
+  $('#theCard-question').html(`<div class="field"><input id = 'new-question' type='text' value='${flashCards[cardIndex].question}'></div>`)
+  $('#theCard-answer').html(`<div class="field"><input id = 'new-answer' type='text' value='${flashCards[cardIndex].answer}'></div>`)
+  $(document).on('click', '#save', () => {
+    $('#save').attr('id', '#edit');
+    $('#edit').html('Edit');
+    flashCards[cardIndex].question = $('#new-question').val();
+    flashCards[cardIndex].answer = $('#new-answer').val();
+    editMode = !editMode;
+    viewingCard -= 1;
+    flipCard();
+  })
 
 }
 
-function deleteCard(cardId) {
-  console.log(`uhhh, deleting card with id ${cardId}`)
-
-  let cardToDelete = flashCards.findIndex( (card) => {
-    return card.id == cardId;
-  })
-  flashCards = flashCards.filter( (card) => {
-    return card.id != cardToDelete
-  })
+function deleteCard(cardIndex) {
+  flashCards.splice(cardIndex, 1);
+  viewingCard -= 1;
 }
 
 function fillNextCard(cardIndex) {
-  $('#theCard-header').html(`Card #${flashCards[cardIndex].id}`);
+  $('#theCard-header').html(`Card #${cardIndex}`);
   $('#theCard-question').html(flashCards[cardIndex].question);
   $('#theCard-answer').html(flashCards[cardIndex].answer);
 }
@@ -78,8 +81,9 @@ function flipCard() {
   cardMode = !cardMode;
   if (cardMode) {
     viewingCard += 1;
-    viewingCard = viewingCard % NUMBER_OF_CARDS;
+    viewingCard = viewingCard % flashCards.length;
     fillNextCard(viewingCard);
+    $('#theCard').data('index', viewingCard);
     $('.back').hide();
     $('#show-next').html("Show Answer");
     $('.front').show();
@@ -93,21 +97,24 @@ function flipCard() {
 $(document).ready( () => {
   $('.back').hide();
   fillNextCard(viewingCard);
-
+  $('#theCard').data('id',viewingCard)
 
 
   $(document).on('click', '#show-next', () => {
     flipCard();
   })
 
-  $(document).on('click', '#edit-save', () => {
-    let cardId = $('#theCard').data('id');
+  $(document).on('click', '#edit', () => {
+    $('#edit').attr('id', 'save')
+    let cardIndex = $('#theCard').data('index');
     editMode = !editMode;
-    editCard(cardId);
+    editCard(cardIndex);
+    
   })
 
   $(document).on('click', '#delete-card', () => {
-    let cardToDelete = $('#theCard').data('id');
+    let cardToDelete = $('#theCard').data('index');
+    console.log(`calling deleteCard with card id ${cardToDelete}`);
     deleteCard(cardToDelete);
     flipCard();
   })
